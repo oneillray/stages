@@ -2,7 +2,7 @@
 
 # STAGES 🚴‍♂️
 
-![STAGES Logo](/src/assets/logo.svg)
+![STAGES Logo](https://raw.githubusercontent.com/oneillray/zones/main/src/assets/logo.svg)
 
 **STAGES** is a high-performance, mobile-first training zone calculator for indoor cyclists. It allows you to instantly calculate and visualize your **Power Zones** (based on FTP) and **Heart Rate Zones** (based on Max HR) using a clean, color-coded interface.
 
