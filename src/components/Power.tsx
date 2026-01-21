@@ -4,13 +4,13 @@ import { POWER_ZONES, calculatePowerZone } from '../utils/calculations';
 import type { Metrics } from '../types';
 
 const ZONE_COLORS = [
-  'bg-zone-1',
-  'bg-zone-2',
-  'bg-zone-3',
-  'bg-zone-4',
-  'bg-zone-5',
-  'bg-zone-6',
-  'bg-zone-6', // Z7 uses same color as Z6
+  'bg-zone-1', // Z1: #C7C7CC
+  'bg-zone-2', // Z2: #00C0E8
+  'bg-zone-3', // Z3: #34C759
+  'bg-zone-4', // Z4: #FFCC00
+  'bg-zone-5', // Z5: #FF8D28
+  'bg-zone-6', // Z6: #FF5F57
+  'bg-zone-7', // Z7: #B8191C
 ];
 
 export default function Power() {
@@ -47,9 +47,9 @@ export default function Power() {
             Please set your FTP in Settings
           </div>
         ) : (
-          <div className="space-y-2">
+          <div className="bg-white rounded-lg overflow-hidden">
             {/* Header */}
-            <div className="flex gap-2 pb-2 border-b-2 border-gray-200 font-semibold text-xs text-gray-600">
+            <div className="flex gap-2 px-2 py-3 bg-gray-100 font-semibold text-xs text-gray-700">
               <div className="w-28 flex-shrink-0">Zone</div>
               <div className="flex-1">Range (%)</div>
               <div className="flex-1">Range (W)</div>
@@ -59,50 +59,55 @@ export default function Power() {
             </div>
 
             {/* Rows */}
-            {POWER_ZONES.map((zone, index) => {
-              const calc = calculatePowerZone(zone, ftp, weight);
-              let rangePercent: string;
-              if (index === 0) {
-                // Z1 shows as < 55%
-                rangePercent = '<55%';
-              } else if (zone.maxPercent) {
-                rangePercent = `${zone.minPercent}-${zone.maxPercent}%`;
-              } else {
-                rangePercent = `>${zone.minPercent}%`;
-              }
-              
-              return (
-                <div
-                  key={zone.name}
-                  className={`flex gap-2 items-center p-3 rounded-lg ${ZONE_COLORS[index]} text-white`}
-                >
-                  <div className="w-28 flex-shrink-0 font-semibold text-xs">
-                    {zone.name}
+            <div className="space-y-2 p-2">
+              {POWER_ZONES.map((zone, index) => {
+                const calc = calculatePowerZone(zone, ftp, weight);
+                let rangePercent: string;
+                if (index === 0) {
+                  // Z1 shows as < 55%
+                  rangePercent = '<55%';
+                } else if (zone.maxPercent) {
+                  rangePercent = `${zone.minPercent}-${zone.maxPercent}%`;
+                } else {
+                  rangePercent = `>${zone.minPercent}%`;
+                }
+                
+                // Z1 (light gray) uses dark text, others use white text
+                const textColor = index === 0 ? 'text-gray-800' : 'text-white';
+                
+                return (
+                  <div
+                    key={zone.name}
+                    className={`flex gap-2 items-center px-2 h-14 rounded-lg ${ZONE_COLORS[index]} ${textColor}`}
+                  >
+                    <div className="w-28 flex-shrink-0 font-semibold text-xs">
+                      {zone.name}
+                    </div>
+                    <div className={`flex-1 text-xs ${index === 0 ? '' : 'font-medium'}`}>
+                      {rangePercent}
+                    </div>
+                    <div className={`flex-1 text-xs ${index === 0 ? '' : 'font-medium'}`}>
+                      {calc.maxWatts !== null 
+                        ? `${calc.minWatts}-${calc.maxWatts}`
+                        : `>${calc.minWatts}`
+                      }
+                    </div>
+                    <div className={`flex-1 text-xs ${index === 0 ? '' : 'font-medium'}`}>
+                      {calc.maxWkg !== null 
+                        ? `${calc.minWkg}-${calc.maxWkg}`
+                        : `>${calc.minWkg}`
+                      }
+                    </div>
+                    <div className={`flex-1 text-xs ${index === 0 ? '' : 'font-medium'}`}>
+                      {calc.avgWatts}
+                    </div>
+                    <div className={`flex-1 text-xs ${index === 0 ? '' : 'font-medium'}`}>
+                      {calc.avgWkg}
+                    </div>
                   </div>
-                  <div className="flex-1 text-xs">
-                    {rangePercent}
-                  </div>
-                  <div className="flex-1 text-xs font-medium">
-                    {calc.maxWatts !== null 
-                      ? `${calc.minWatts}-${calc.maxWatts}`
-                      : `>${calc.minWatts}`
-                    }
-                  </div>
-                  <div className="flex-1 text-xs font-medium">
-                    {calc.maxWkg !== null 
-                      ? `${calc.minWkg}-${calc.maxWkg}`
-                      : `>${calc.minWkg}`
-                    }
-                  </div>
-                  <div className="flex-1 text-xs font-medium">
-                    {calc.avgWatts}
-                  </div>
-                  <div className="flex-1 text-xs font-medium">
-                    {calc.avgWkg}
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         )}
       </div>

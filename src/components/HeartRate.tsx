@@ -4,11 +4,11 @@ import { HEART_RATE_ZONES, calculateHeartRateZone } from '../utils/calculations'
 import type { Metrics } from '../types';
 
 const ZONE_COLORS = [
-  'bg-zone-1',
-  'bg-zone-2',
-  'bg-zone-3',
-  'bg-zone-4',
-  'bg-zone-5',
+  'bg-zone-1', // Z1: #C7C7CC from Figma
+  'bg-zone-2', // Z2: #00C0E8 from Figma
+  'bg-zone-3', // Z3: #34C759 from Figma
+  'bg-zone-4', // Z4: #FFCC00 from Figma
+  'bg-zone-5', // Z5: #FF8D28 from Figma
 ];
 
 export default function HeartRate() {
@@ -45,9 +45,9 @@ export default function HeartRate() {
             Please set your Max HR in Settings
           </div>
         ) : (
-          <div className="space-y-2">
+          <div className="bg-white rounded-lg overflow-hidden">
             {/* Header */}
-            <div className="flex gap-2 pb-2 border-b-2 border-gray-200 font-semibold text-sm text-gray-600">
+            <div className="flex gap-2 px-2 py-3 bg-gray-100 font-semibold text-xs text-gray-700">
               <div className="w-24 flex-shrink-0">Zone</div>
               <div className="flex-1">Range (%)</div>
               <div className="flex-1">Range (BPM)</div>
@@ -56,31 +56,36 @@ export default function HeartRate() {
             </div>
 
             {/* Rows */}
-            {HEART_RATE_ZONES.map((zone, index) => {
-              const calc = calculateHeartRateZone(zone, maxHR);
-              return (
-                <div
-                  key={zone.name}
-                  className={`flex gap-2 items-center p-3 rounded-lg ${ZONE_COLORS[index]} text-white`}
-                >
-                  <div className="w-24 flex-shrink-0 font-semibold text-sm">
-                    {zone.name}
+            <div className="space-y-2 p-2">
+              {HEART_RATE_ZONES.map((zone, index) => {
+                const calc = calculateHeartRateZone(zone, maxHR);
+                // Z1 (light gray) uses dark text, others use white text
+                const textColor = index === 0 ? 'text-gray-800' : 'text-white';
+                
+                return (
+                  <div
+                    key={zone.name}
+                    className={`flex gap-2 items-center px-2 h-14 rounded-lg ${ZONE_COLORS[index]} ${textColor}`}
+                  >
+                    <div className="w-24 flex-shrink-0 font-semibold text-xs">
+                      {zone.name}
+                    </div>
+                    <div className={`flex-1 text-xs ${index === 0 ? '' : 'font-medium'}`}>
+                      {zone.minPercent}-{zone.maxPercent}%
+                    </div>
+                    <div className={`flex-1 text-xs ${index === 0 ? '' : 'font-medium'}`}>
+                      {calc.minBPM}-{calc.maxBPM}
+                    </div>
+                    <div className={`flex-1 text-xs ${index === 0 ? '' : 'font-medium'}`}>
+                      {calc.avgBPM}
+                    </div>
+                    <div className={`flex-1 text-xs ${index === 0 ? '' : 'font-medium'}`}>
+                      {calc.avgPercent}%
+                    </div>
                   </div>
-                  <div className="flex-1 text-sm">
-                    {zone.minPercent}-{zone.maxPercent}%
-                  </div>
-                  <div className="flex-1 text-sm font-medium">
-                    {calc.minBPM}-{calc.maxBPM}
-                  </div>
-                  <div className="flex-1 text-sm font-medium">
-                    {calc.avgBPM}
-                  </div>
-                  <div className="flex-1 text-sm font-medium">
-                    {calc.avgPercent}%
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         )}
       </div>

@@ -7,12 +7,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        'zone-1': '#94a3b8', // Slate-400
-        'zone-2': '#3b82f6', // Blue-500
-        'zone-3': '#22c55e', // Green-500
-        'zone-4': '#eab308', // Yellow-500
-        'zone-5': '#ef4444', // Red-500
-        'zone-6': '#a855f7', // Purple-500
+        'zone-1': '#C7C7CC', // Zone 1 from Figma
+        'zone-2': '#00C0E8', // Zone 2 from Figma
+        'zone-3': '#34C759', // Zone 3 from Figma
+        'zone-4': '#FFCC00', // Zone 4 from Figma
+        'zone-5': '#FF8D28', // Zone 5 from Figma
+        'zone-6': '#FF5F57', // Zone 6 from Figma
+        'zone-7': '#B8191C', // Zone 7 from Figma
       },
       fontFamily: {
         sans: ['IBM Plex Sans', 'sans-serif'],

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getStoredMetrics, saveMetrics, getHistory } from '../utils/storage';
 import type { Metrics, HistoryEntry } from '../types';
+import logo from '../assets/logo.svg';
 
 export default function Settings() {
   const [metrics, setMetrics] = useState<Metrics>(getStoredMetrics());
@@ -22,6 +23,9 @@ export default function Settings() {
   return (
     <div className="h-full overflow-y-auto pb-20 px-4">
       <div className="max-w-md mx-auto py-6">
+        <div className="mb-6 flex justify-center">
+          <img src={logo} alt="STAGES Logo" className="h-12" />
+        </div>
         <h1 className="text-2xl font-bold mb-6">Settings</h1>
         
         <div className="space-y-6">
